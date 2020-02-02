@@ -14,16 +14,14 @@ class EsriMap extends React.Component {
   }
 
   // load the ArcGIS JS API and map when the component mounts
-  componentDidMount() {
+  async componentDidMount() {
     const { theme, onLoad } = this.props;
     const container = this.mapDiv.current;
     const basemap = themeToBasemap(theme);
-    loadMap(container, basemap).then(view => {
-      // we need a reference to the view in other lifecycle methods
-      this._view = view;
-      // let the app know the map has loaded
-      onLoad && onLoad();
-    });
+    // we need a reference to the view in other lifecycle methods
+    this._view = await loadMap(container, basemap);
+    // let the app know the map has loaded
+    onLoad && onLoad();
   }
 
   // update the basemap when the theme changes
