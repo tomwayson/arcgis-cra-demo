@@ -1,4 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ArcGIS CRA Demo
+
+The purpose of this project is to show how to integrate the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/) into an application that was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+The focal point of the application is the [`EsriMap`](./src/EsriMap.js) component, which demonstrates how to relay state between a React component and an ArcGIS map via their respective life cycle methods. Specifically the component should:
+- create a map (only once) when mounted
+- call a callback prop when the map has been created
+- update map properties (basemap) when component props change
+- destroy the map (and view) when the component is unmounted
 
 ## Available Scripts
 

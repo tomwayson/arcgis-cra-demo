@@ -1,26 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import EsriMap from "./EsriMap";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    theme: "light",
+    mapLoaded: false
+  };
+  switchTheme = e => {
+    this.setState({ theme: e.target.dataset.theme });
+  };
+  onMapLoad = () => {
+    this.setState({ mapLoaded: true });
+  };
+  render() {
+    const appClassName = `App ${this.state.theme === "dark" ? "dark" : ""}`;
+    return (
+      <div className={appClassName}>
+        <div>
+          <label>Theme: </label>
+          <button
+            onClick={this.switchTheme}
+            data-theme="light"
+            disabled={!this.state.mapLoaded}
+          >
+            Light
+          </button>
+          <button
+            onClick={this.switchTheme}
+            data-theme="dark"
+            disabled={!this.state.mapLoaded}
+          >
+            Dark
+          </button>
+        </div>
+        <EsriMap theme={this.state.theme} onLoad={this.onMapLoad} />
+      </div>
+    );
+  }
 }
 
 export default App;
