@@ -12,17 +12,23 @@ function EsriMap ({ theme, onLoad }) {
   // need a reference for the view as well since we don't have instance fields
   // see: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
   const viewRef = useRef(null);
+  // need initial prop values when loading the map (see below)
+  const initialProps = useRef({ theme, onLoad });
 
   // load the ArcGIS JS API and map when the component mounts
   useEffect(() => {
     // hooks require inline functions in order to use async/await
-    async function initMap () {
+    async function initMap ({ theme, onLoad }) {
       // we need a reference to the view in other hooks
       viewRef.current = await loadMap(mapDiv.current, themeToBasemap(theme));
       // let the app know the map has loaded
       onLoad && onLoad();
     }
-    initMap();
+    // we can't use the props directly in this hook w/o depending on them
+    // and we can't depend on them if we want this hook to only run once
+    // so instead we get initial prop values via a ref
+    // see: https://github.com/facebook/react/issues/15865#issuecomment-540715333
+    initMap(initialProps.current);
     // destroy the view and map to prevent memory leaks
     // similar to componentWillUnmount()
     return function destroyMapView() {
