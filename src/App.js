@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 import EsriMap from "./EsriMap";
 
 function App () {
   const [theme, setTheme] = useState('light');
   const [mapLoaded, setMapLoaded] = useState(false);
-
-  const switchTheme = e => {
-    setTheme(e.target.dataset.theme);
-  };
-  const onMapLoad = () => {
+  const onMapLoad = useCallback(() => {
     setMapLoaded(true);
-  };
+  }, []);
+  const switchTheme = useCallback(e => {
+    setTheme(e.target.dataset.theme);
+  }, []);
   const appClassName = `App ${theme === "dark" ? "dark" : ""}`;
+
   return (
     <div className={appClassName}>
       <div>
